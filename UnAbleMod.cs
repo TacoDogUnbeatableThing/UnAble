@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using Object = UnityEngine.Object;
 
-[BepInPlugin("tacotechnica.UnAbleMod", "Unity Mod Template", "1.0.0")]
+[BepInPlugin("tacodog.unbeatable.UnAbleMod", "UnAbleMod", "1.0.0")]
+[BepInIncompatibility("tacodog.unbeatable.custombeatmaps")]
 public class UnAbleMod : BaseUnityPlugin
 {
 
