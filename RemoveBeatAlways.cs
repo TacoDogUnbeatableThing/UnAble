@@ -19,6 +19,10 @@ public static class RemoveBeatAlways
     [HarmonyPostfix]
     private static void Disable(RhythmPlayer __instance)
     {
+        foreach (var renderer in __instance.gameObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.enabled = false;
+        }
         // Disable later so we INITIALIZE our rewired, causes issues otherwise.
         __instance.StartCoroutine(DisableLater(__instance.gameObject, 0.5f));
     }
