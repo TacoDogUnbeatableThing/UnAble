@@ -42,10 +42,7 @@ public class UnAbleMod : BaseUnityPlugin
         {
             if (scene.name == "BootUp")
             {
-                foreach (var video in FindObjectsOfType<VideoPlayer>())
-                {
-                    video.gameObject.SetActive(false);
-                }
+                OpeningVideoOverride.ChangeOpeningVideo();
             }
 
             RemoveBeatAlways.OnSceneLoaded();
