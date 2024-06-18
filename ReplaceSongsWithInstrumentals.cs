@@ -54,7 +54,6 @@ public static class ReplaceSongsWithInstrumentals
         [HarmonyPostfix]
         private static void ParseBeatmapInstance(BeatmapParser __instance)
         {
-            Debug.Log("BBBBB");
             OverrideBeatmapAudio(__instance.beatmapPath, ref __instance.audioKey);
             __instance.beatmap.general.audioFilename = __instance.audioKey;
         }
@@ -77,7 +76,6 @@ public static class ReplaceSongsWithInstrumentals
             ref Beatmap local = ref beatmap;
             beatmapParserEngine.ReadBeatmap(text, ref local);
 
-            Debug.Log("AAAAA");
             OverrideBeatmapAudio(beatmapPath, ref songName);
             beatmap.general.audioFilename = songName;
         }
