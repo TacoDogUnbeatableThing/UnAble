@@ -1,8 +1,10 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using HarmonyLib;
-using Rewired;
 using Rhythm;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class FixRhythmGame
 {
@@ -24,19 +26,18 @@ public static class FixRhythmGame
     
     [HarmonyPatch(typeof(RhythmController), "Miss", new Type[0])]
     [HarmonyPrefix, HarmonyPriority(Priority.HigherThanNormal)] 
-    private static void MissIgnore1(Rhythm.RhythmController __instance, ref bool __runOriginal)
+    private static void MissIgnore1(RhythmController __instance, ref bool __runOriginal)
     {
         __runOriginal = false;
     }
 
     [HarmonyPatch(typeof(RhythmController), "Miss", typeof(float), typeof(bool))]
     [HarmonyPrefix, HarmonyPriority(Priority.HigherThanNormal)]
-    private static void MissIgnore2(Rhythm.RhythmController __instance, ref bool __runOriginal)
+    private static void MissIgnore2(RhythmController __instance, ref bool __runOriginal)
     {
         __runOriginal = false;
     }
-    
-    
+
     // Remove Song bottom UI
     [HarmonyPatch(typeof(RhythmUiTrack), "Start")]
     [HarmonyPostfix]
@@ -56,7 +57,7 @@ public static class FixRhythmGame
     {
         // Wait 2 seconds to pass the screen
         __runOriginal = false;
-        __result = __instance.controller.PastHitRange(hitTime + 2000);
+        __result = __instance.controller.PastHitRange(hitTime + 20000);
     }
 
     [HarmonyPatch(typeof(BaseNote), "PastHitRange", typeof(float))]
@@ -78,6 +79,18 @@ public static class FixRhythmGame
     {
         __runOriginal = false;
         __result = false;
+    }
+
+    [HarmonyPatch(typeof(BaseNote), "GetSongTransformPosition")]
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> DontDestroyOnSongTransformPosition(IEnumerable<CodeInstruction> instructions)
+    {
+        // Boost the progress destroy threshold so we don't destroy ourselves here.
+        return new CodeMatcher(instructions)
+            .MatchForward(false, 
+                new CodeMatch(OpCodes.Ldc_R4))
+            .SetOperandAndAdvance(999999999.0f)
+            .InstructionEnumeration();
     }
 
 }

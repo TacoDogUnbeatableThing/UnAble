@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-        <TargetFramework>netstandard2.1</TargetFramework>
+<!--        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>-->
+        <TargetFramework>net472</TargetFramework>
         <PackageId>UnAbleMod</PackageId>
         <RootNamespace>UnAbleMod</RootNamespace>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
